@@ -25,14 +25,16 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ /
         print()
     elif inpt == 1:
         if len(geral_list) == 0:
-            print('Adicione algum aluno na lista...')
+            print('Nenhum aluno cadastrado...')
             print()
         else:
+            s = 0
             for c in range(0, len(turmas)):
                 print(f'-=-=-=- Alunos cadastrados na turma: {turmas[c]} -=-=-=-')
                 for aluno in geral_list:
                     if aluno[2] == turmas[c]:
-                        print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
+                        print(f'{s + 1}Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
+                s = 0
                 print()
     elif inpt == 2:
         if len(turmas) == 0:
@@ -60,11 +62,14 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ /
                     print()
                     temp_data.append(aluno_turma)
                     geral_list.append(temp_data[:])
+                    print('Visão prévia:')
+                    print(f'Nome: {temp_data[0]:<20} | Data de nascimento: {temp_data[1]}')
+                    print()
                     temp_data.clear()
 
     elif inpt == 3:
         print('=-=-= Cadastramento de turmas =-=-=')
-        name = str(input('Digite um nome para sua turma: '))
+        name = str(input('Digite um nome para sua turma: ')).capitalize().strip()
         turmas.append(name)
         print('''Turma criada com Sucesso!
         ''')
@@ -72,7 +77,7 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ /
 
     elif inpt == 4:
         if len(geral_list) == 0 or len(turmas) == 0:
-            print('Você ainda não possui nemnhum aluno cadastrado')
+            print('Você ainda não possui alunos cadastrados')
             print()
         else:
             print('=== Configurações do aluno ===')
