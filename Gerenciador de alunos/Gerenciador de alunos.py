@@ -2,12 +2,16 @@ geral_list = list()
 turmas = list()
 temp_data = list()
 done = False
+on = False
 s = 0
 
-print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão   1.4
-''')
+if on:
+    geral_list.sort()
+    turmas.sort()
 
+print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
+Programado por KevBoyz >>> Versão   1.5
+''')
 
 while True:
     print('''Menu de opções:
@@ -81,40 +85,80 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_/ /
             
 [1] Deletar turmas
 [2] Deletar alunos
-[3] Voltar ao programa
+[3] Ordenar alunos e turmas em ordem alfabetica
+[4] Limpar dados
+[5] Voltar ao programa
 ''')
             inpt = int(input('>>> '))
 
             if inpt == 1:
-                print('Turmas disponiveis: ', end='')
-                for turma in turmas:
-                    print(f'{turma}', end='')
-                del_item = str(input('Digite o nome da turma a ser deletada: '))
-                if del_item not in turmas:
-                    print('Turma não encontrada')
-                    del_item = int(input('Digite o nome da turma a ser deletada: '))
-                elif del_item in turmas:
-                    turmas.remove(del_item)
-                    print(turmas)
-                    for aluno in geral_list:
-                        if aluno[2] == del_item:
-                            aluno[2] = 'Aluno sem Turma'
+                if len(turmas) == 0:
+                    print('Nenhuma turma encontrada')
+                else:
+                    print('Turmas disponiveis: ', end='')
+                    for turma in turmas:
+                        print(f'{turma}', end='')
+                    del_item = str(input('Digite o nome da turma a ser deletada: '))
+                    if del_item not in turmas:
+                        print('Turma não encontrada')
+                        del_item = int(input('Digite o nome da turma a ser deletada: '))
+                    elif del_item in turmas:
+                        turmas.remove(del_item)
+                        print(turmas)
+                        for aluno in geral_list:
+                            if aluno[2] == del_item:
+                                aluno[2] = 'Aluno sem Turma'
+                        print('Concluido com exito')
+                        print()
+            elif inpt == 2:
+                if len(geral_list) == 0:
+                    print('Nenhum aluno encontrado')
+                else:
+                    name = str(input('Digite o nome do aluno a ser deletado: '))
+                    if name not in geral_list:
+                        print('Aluno não encontrado')
+                        name = str(input('Digite o nome do aluno a ser deletado: '))
+                    elif name in geral_list:
+                        for aluno in geral_list:
+                            if aluno[0] == name:
+                                geral_list.remove(aluno[2])
+                                geral_list.remove(aluno[1])
+                                geral_list.remove(aluno[0])
+                                print('Concluido com exito')
+                                print()
+            elif inpt == 3:
+                print()
+                if not on:
+                    print('Ordenar alunos e turmas em ordem alfabetica')
+                    print('Estado: [Desativado]')
+                    go = str(input('Você deseja ligar essa função? (S/N) ')).lower()[0]
+                    if go[0] == 's':
+                        on = True
+                        print('Função ativada')
+                    if go[0] == 'n':
+                        print('Operação cancelada')
+                else:
+                    print('Ordenar alunos e turmas em ordem alfabetica')
+                    print('Estado: [ativado]')
+                    go = str(input('Você deseja desligar essa função? (S/N) ')).lower()[0]
+                    if go[0] == 's':
+                        print('Função desativada')
+                        on = False
+                    if go[0] == 'n':
+                        print('Operação cancelada')
+
+            elif inpt == 4:
+                print('Se esta operação for realizada, todos os dados serão excluidos')
+                go = srt(input('Você tem certeza que quer fazer isso? (S/N) ')).lower()[0]
+                if go[0] == s:
                     print('Concluido com exito')
                     print()
-            elif inpt == 2:
-                name = str(input('Digite o nome do aluno a ser deletado: '))
-                if name not in geral_list:
-                    print('Aluno não encontrado')
-                    name = str(input('Digite o nome do aluno a ser deletado: '))
-                elif name in geral_list:
-                    for aluno in geral_list:
-                        if aluno[0] == name:
-                            geral_list.remove(aluno[2])
-                            geral_list.remove(aluno[1])
-                            geral_list.remove(aluno[0])
-                            print('Concluido com exito')
-                            print()
-            elif inpt == 3:
+                    geral_list.clear()
+                    turmas.clear()
+                else:
+                    print('Processo Cancelado')
+
+            elif inpt == 5:
                 break
                 print()
 
