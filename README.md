@@ -12,5 +12,3 @@ v 1.4
 * Editar configurações de alunos
 
 #### Os dados se perdem ao fechar o programa, o banco dedados será implementado na versão 3.0 do progrma
-
-![img.png](img.png)
