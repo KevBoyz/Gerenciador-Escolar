@@ -11,7 +11,7 @@ s = 0
 
 
 print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão   1.5
+Programado por KevBoyz >>> Versão  2.0
 ''')
 
 while True:
