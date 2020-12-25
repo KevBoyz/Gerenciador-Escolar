@@ -12,7 +12,7 @@ v 2.2
 * Deletar informações
 * Editar configurações de alunos
 * Programa mais instável e visualmente bonito
-#### A partir da versão 2.2 foi adicionado um banco de dados, porem ele não armazena dados, apenas está alí...
+#### A partir da versão **2.2** foi adicionado um banco de dados, porem ele _não armazena dados_, apenas está alí...
 
 #### Para uso do programa é nessesário instalar o plugin _Database Navigator_ no seu Framework para suportar o banco de dados
 #### e executar o comando `pip install sqlite` para instalar o modulo **SQlite**
