@@ -1,3 +1,7 @@
+import sqlite3
+
+save = sqlite3.connect("Data_Base.db")
+
 geral_list = list()
 turmas = list()
 notas = ['ap1', 'ap2', 'ab']
@@ -10,7 +14,7 @@ s = 0
 
 
 print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão  2.1
+Programado por KevBoyz >>> Versão  2.2
 ''')
 
 while True:
@@ -37,6 +41,14 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
         else:
             s = 0
             for c in range(0, len(turmas)):
+                print(f'''Informações Gerais:
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Alunos Cadastrados: {len(geral_list)}
+Alunos com notas atribuiidas: {len(aluno_notas)} -> {(len(geral_list) * len(aluno_notas))/100}% do total
+Turmas cadastradas: {len(turmas)}
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+''')
                 print(f'-=-=-=- Alunos cadastrados na turma: {turmas[c]} -=-=-=-')
                 for aluno in geral_list:
                     if aluno[2] == turmas[c]:
@@ -254,8 +266,11 @@ Método de atribuição
                             temp_data.append(aluno[0])
                             print()
                 print('-=-=-=- Alunos Reprovados -=-=-=-')
-                for c in temp_data:
-                    print(c)
+                if len(temp_data) == 0:
+                    print('Nenhum aluno reprovou')
+                else:
+                    for c in temp_data:
+                        print(c)
 
     elif inpt == 7:
         if len(geral_list) == 0 or len(turmas) == 0:
@@ -281,7 +296,8 @@ Método de atribuição
 [1] Trocar nome do aluno
 [2] Trocar data de nascimento 
 [3] Mudar aluno de turma
-[4] Voltar ao programa''')
+[4] Alterar notas do aluno
+[5] Voltar ao programa''')
                         inpt = int(input('>>> '))
                         if inpt == 1:
                             new_name = str(input('Digite um novo nome: '))
@@ -325,7 +341,52 @@ Método de atribuição
                                     print()
 
                         elif inpt == 4:
-                            print('Saindo do configurador...')
-                            print()
-                            break
+                            if len(aluno_notas) == 0:
+                                print('Você não atribuiu nota para nehum aluno')
+                                print()
+                            else:
+                                print('-=-'*10)
+                                print('=== Alteração de notas ===')
+                                while True:
+                                    for aluno in aluno_notas:
+                                        if aluno[0] == name:
+                                            print(f'''Qual nota do aluno você deseja alterar?
+[1] {notas[0]}
+[2] {notas[1]}
+[3] {notas[2]}
+[4] Voltar ao programa''')
+                                            inpt = int(input('>>> '))
 
+                                            if inpt == 1 or 2 or 3:
+                                                print(f'Aluno: {aluno[0]}')
+                                                print('Digite uma nova nota para a', end='')
+                                            if inpt == 1:
+                                                print(f'{notas[0]}', end='')
+                                                new_points = float(input('>>> '))
+                                                if new_points > 10:
+                                                    print('A nota maxima é 10')
+                                                    new_points = float(input('>>> '))
+                                                else:
+                                                    aluno[2] = new_points
+                                                print('Nota modificada com sucesso!')
+                                            elif inpt == 2:
+                                                print(f'{notas[1]}', end='')
+                                                new_points = float(input('>>> '))
+                                                if new_points > 10:
+                                                    print('A nota maxima é 10')
+                                                    new_points = float(input('>>> '))
+                                                else:
+                                                    aluno[3] = new_points
+                                                    print('Nota modificada com sucesso!')
+                                            elif inpt == 3:
+                                                print(f'{notas[2]}', end='')
+                                                new_points = float(input('>>> '))
+                                                if new_points > 10:
+                                                    print('A nota maxima é 10')
+                                                    new_points = float(input('>>> '))
+                                                else:
+                                                    aluno[4] = new_points
+                                                    print('Nota modificada com sucesso!')
+                                            elif inpt == 4:
+                                                print('Saindo do configurador...')
+                                                break
