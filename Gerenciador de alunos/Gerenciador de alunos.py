@@ -3,7 +3,6 @@ turmas = list()
 notas = ['ap1', 'ap2', 'ab']
 aluno_notas = list()
 temp_data = list()
-
 med_min = 7.0
 done = False
 on = False
@@ -11,7 +10,7 @@ s = 0
 
 
 print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão  2.0
+Programado por KevBoyz >>> Versão  2.1
 ''')
 
 while True:
@@ -41,7 +40,7 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
                 print(f'-=-=-=- Alunos cadastrados na turma: {turmas[c]} -=-=-=-')
                 for aluno in geral_list:
                     if aluno[2] == turmas[c]:
-                        print(f'{aluno}. Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
+                        print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
                 print()
     elif inpt == 2:
         if len(turmas) == 0:
@@ -55,24 +54,25 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
             else:
                 print(f'Ok! Informe os dados dos {loop} alunos' if loop > 1 else 'Ok! Informe os dados do aluno' )
                 print('-=-'*10)
+                print()
                 for c in range(0, loop):
                     print(f'-=-=-=- Aluno {c+1} -=-=-=-')
                     temp_data.append(str(input(f'Nome do aluno {c+1}: ')))
-                    temp_data.append(str(input(f'Data de nascimento do aluno {c+1}: ')))
+                    temp_data.append(str(input(f'Data de nascimento de {temp_data[0]}: ')))
                     print('Turmas disponiveis: ', end='')
                     for turma in turmas:
                         print(f'{turma}', end='')
-                    aluno_turma = (str(input('\nDigite o nome da turma na qual o aluno sera cadastrado: ')))
+                    aluno_turma = (str(input('\nEm qual turma o aluno será cadastrado: ')))
                     if aluno_turma not in turmas:
                         print('Turma não encontrada')
-                        aluno_turma = (str(input('\nDigite o nome da turma na qual o aluno sera cadastrado: ')))
-                    print('Aluno cadastrado!')
+                        aluno_turma = (str(input('\nEm qual turma o aluno será cadastrado: ')))
                     print()
                     temp_data.append(aluno_turma)
                     geral_list.append(temp_data[:])
                     print('Visão prévia:')
                     print(f'Nome: {temp_data[0]:<20} | Data de nascimento: {temp_data[1]}')
-                    print(f'Aluno {c} castrado com sucesso')
+                    print(f'Aluno {c+1} castrado com sucesso')
+                    print()
                     temp_data.clear()
 
     elif inpt == 3:
@@ -84,7 +84,8 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
     elif inpt == 4:
         while True:
-            print('''=== Configurações do Programa ===
+            print('''
+=== Configurações do Programa ===
             
 [1] Deletar turmas
 [2] Deletar alunos
@@ -135,7 +136,7 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
                 print('Por padrão a nota é 7.0 na média')
                 print()
                 go = str(input('Você deseja alterar esse valor? (S/N) ')).lower()[0]
-                if go[0] == s:
+                if go[0] == 's':
                     med_min = float(input('Digite o valor a ser atribuido: '))
                     if med_min == 0 or 0 > med_min:
                         print('Valor inválido')
@@ -150,8 +151,8 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
             elif inpt == 4:
                 print('Se esta operação for realizada, todos os dados serão excluidos')
-                go = srt(input('Você tem certeza que quer fazer isso? (S/N) ')).lower()[0]
-                if go[0] == s:
+                go = str(input('Você tem certeza que quer fazer isso? (S/N) ')).lower()[0]
+                if go[0] == 's':
                     print('Concluido com exito')
                     print()
                     geral_list.clear()
@@ -187,49 +188,53 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
 
 
     elif inpt == 5:
-        print(''' === Atribuir notas === 
-        ''')
-        done = False
-        while True:
-            print('''Método de atribuição
+        if len(geral_list) == 0:
+            print('Nenhum aluno cadastrado...')
+        else:
+            print(' === Atribuir notas === ')
+            done = False
+            while True:
+                print('''
+Método de atribuição
 [1] A um aluno específico
 [3] Voltar ao programa''')
-            inpt = int(input('>>> '))
-            if inpt > 3 or 0 > inpt or inpt == 0:
-                print('Numero invalido')
-                print()
-            else:
-                if inpt == 1:
-                    name = str(input('Digite o nome do aluno '))
-                    for aluno in geral_list:
-                        if aluno[0] == name:
-                            print('Dados do aluno:')
-                            print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]} | Cadastrado na turma {aluno[2]}')
-                            print()
-                            for aluno in geral_list:
-                                if aluno[0] == name:
-                                    done = True
-                            if done:
-                                print('O aluno ainda não tem nenhuma nota atribuida...')
-                                print('Iniciando laço para adição das tres notas')
-                                print()
-                                temp_data.append(aluno[0])
-                                temp_data.append(aluno[2])
-                                for c in range(0, 3):
-                                    temp_data.append(float(input(f'Nota para {notas[c]} do aluno: ')))
-                                aluno_notas.append(temp_data[:])
-                                temp_data.clear()
-                                print('Notas registradas')
-                                print()
-
-
-                elif inpt == 3:
-                    break
+                inpt = int(input('>>> '))
+                if inpt > 3 or 0 > inpt or inpt == 0:
+                    print('Numero invalido')
                     print()
+                else:
+                    if inpt == 1:
+                        name = str(input('Digite o nome do aluno '))
+                        for aluno in geral_list:
+                            if aluno[0] == name:
+                                print('Dados do aluno:')
+                                print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]} | Cadastrado na turma {aluno[2]}')
+                                print()
+                                for aluno in geral_list:
+                                    if aluno[0] == name:
+                                        done = True
+                                if done:
+                                    print('O aluno ainda não tem nenhuma nota atribuida...')
+                                    print('Iniciando laço para adição das tres notas')
+                                    print()
+                                    temp_data.append(aluno[0])
+                                    temp_data.append(aluno[2])
+                                    for c in range(0, 3):
+                                        temp_data.append(float(input(f'Nota para {notas[c]} do aluno: ')))
+                                    aluno_notas.append(temp_data[:])
+                                    temp_data.clear()
+                                    print('Notas registradas')
+                                    print()
+
+
+                    elif inpt == 3:
+                        break
+                        print()
 
     elif inpt == 6:
         if len(aluno_notas) == 0:
             print('Você não atribuiu nota a nenhum aluno')
+            print()
         else:
             print('= = === Boletim Dos Estudantes === = =')
             print('Está lista contem apenas os alunos que tiveram notas atribuidas')
@@ -238,15 +243,19 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                 print(f'-=-=-=-=- Turma: {turmas[c]} -=-=-=-=-')
                 print()
                 for aluno in aluno_notas:
-                    print(aluno)
                     if aluno[1] == turmas[c]:
                         calc = (aluno[2] + aluno[3] + aluno[4])
-                        print(f'Nome: {aluno[0]} |Notas: {notas[0]}:{aluno[2]} | {notas[1]}:{aluno[3]} | {notas[2]}:{aluno[4]}')
+                        print(f'Nome: {aluno[0]} |Notas-> {notas[0]} = {aluno[2]} | {notas[1]} = {aluno[3]} | {notas[2]} = {aluno[4]}')
                         if calc >= med_min * 3:
-                            print(f'Aluno {aluno_notas[0]} foi Aprovado')
+                            print(f'Aluno {aluno[0]} foi Aprovado')
+                            print()
                         else:
-                            print(f'Aluno {aluno[0]} foi Reprovado')
-                        print()
+                            print(f'Aluno {aluno[0]} foi Reprovado ')
+                            temp_data.append(aluno[0])
+                            print()
+                print('-=-=-=- Alunos Reprovados -=-=-=-')
+                for c in temp_data:
+                    print(c)
 
     elif inpt == 7:
         if len(geral_list) == 0 or len(turmas) == 0:
@@ -293,8 +302,8 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                             for aluno in geral_list:
                                 if aluno[0] == name:
                                     done = True
-                                if done == False:
-                                    while done == False:
+                                if done:
+                                    while done:
                                         print('Aluno não encontrado...')
                                         name = str(input('Nome do aluno a ser mudado de turma: '))
                                         for aluno in geral_list:
@@ -314,7 +323,9 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                                                 aluno[2] = new_turm
                                     print('Concluido com exito')
                                     print()
+
                         elif inpt == 4:
                             print('Saindo do configurador...')
                             print()
                             break
+
