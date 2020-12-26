@@ -11,22 +11,24 @@ med_min = 7.0
 done = False
 on = False
 s = 0
+no_turm = 0
 
 
 print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão  2.2
+Programado por KevBoyz >>> Versão  2.3
 ''')
 
 while True:
     print('''Menu de opções:
 _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 [1] Conferir lista de alunos    |
-[2] Cadastrar novo aluno        |
-[3] Cadastrar nova turma        |
-[4] Configurações do programa   |
-[5] Atribuir notas para alunos  |
-[6] Conferir notas de alunos    |
-[7] editar configurações do aluno''')
+[2] Alunos sem turma            |
+[3] Cadastrar novo aluno        |
+[4] Cadastrar nova turma        |
+[5] Configurações do programa   |
+[6] Atribuir notas para alunos  |
+[7] Conferir notas de alunos    |
+[8] editar configurações do aluno''')
     inpt = int(input('>>> '))
     print()
     done = False
@@ -38,8 +40,11 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
         if len(geral_list) == 0:
             print('Nenhum aluno cadastrado...')
             print()
+        elif len(geral_list) > 0 and len(turmas) == 0:
+            print('Nenhuma Turma cadastrada...')
+            print('Se você tiver excluido alguma turma, cheque os alunos sem turma na opção [2]')
+            print()
         else:
-            s = 0
             for c in range(0, len(turmas)):
                 print(f'''Informações Gerais:
 
@@ -47,6 +52,7 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 Alunos Cadastrados: {len(geral_list)}
 Alunos com notas atribuiidas: {len(aluno_notas)} -> {(len(geral_list) * len(aluno_notas))/100}% do total
 Turmas cadastradas: {len(turmas)}
+Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 ''')
                 print(f'-=-=-=- Alunos cadastrados na turma: {turmas[c]} -=-=-=-')
@@ -54,7 +60,17 @@ Turmas cadastradas: {len(turmas)}
                     if aluno[2] == turmas[c]:
                         print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
                 print()
+
     elif inpt == 2:
+        print('=== === Alunos sem Turma === ===')
+        print('Para cadastrar alunos em turmas va em configurações do aluno')
+        print()
+
+        for aluno in geral_list:
+            if aluno[2] == 'Aluno sem Turma':
+                print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
+
+    elif inpt == 3:
         if len(turmas) == 0:
             print('Antes de cadastrar alunos, cadastre primeiro uma turma')
             print()
@@ -87,14 +103,14 @@ Turmas cadastradas: {len(turmas)}
                     print()
                     temp_data.clear()
 
-    elif inpt == 3:
+    elif inpt == 4:
         print('=-=-= Cadastramento de turmas =-=-=')
         name = str(input('Digite um nome para sua turma: ')).capitalize().strip()
         turmas.append(name)
         print('''Turma criada com Sucesso!
         ''')
 
-    elif inpt == 4:
+    elif inpt == 5:
         while True:
             print('''
 === Configurações do Programa ===
@@ -111,21 +127,23 @@ Turmas cadastradas: {len(turmas)}
             if inpt == 1:
                 if len(turmas) == 0:
                     print('Nenhuma turma encontrada')
+                    print()
                 else:
                     print('Turmas disponiveis: ', end='')
                     for turma in turmas:
-                        print(f'{turma}', end='')
-                    del_item = str(input('Digite o nome da turma a ser deletada: '))
+                        print(f'{turma}', end=' ')
+                    del_item = str(input('\nDigite o nome da turma a ser deletada: '))
                     if del_item not in turmas:
                         print('Turma não encontrada')
                         del_item = int(input('Digite o nome da turma a ser deletada: '))
                     elif del_item in turmas:
                         turmas.remove(del_item)
-                        print(turmas)
                         for aluno in geral_list:
                             if aluno[2] == del_item:
                                 aluno[2] = 'Aluno sem Turma'
-                        print('Concluido com exito')
+                                no_turm += 1
+
+                        print(f'Turma {del_item} excluida')
                         print()
             elif inpt == 2:
                 if len(geral_list) == 0:
@@ -172,7 +190,7 @@ Turmas cadastradas: {len(turmas)}
                 else:
                     print('Processo Cancelado')
 
-            elif inpt == 4:
+            elif inpt == 5:
 
                 print(' === Configuração para sistema de notas === ')
                 print('''
@@ -180,7 +198,7 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                 go = str(input('Você mudar o nome das notas? (S/N)')).lower()[0]
                 if go[0] == 's':
                     for c in range(0, len(notas)):
-                        new_name = str(input(f'Novo nome para a {notas[0]}, {c}* nota: '))
+                        new_name = str(input(f'Novo nome para a {notas[0]}, {c+1}* nota: '))
                         if len(new_name) > 5 or '!/|:;,*@#%$()?=-+.' in new_name:
                             print('Erro! O nome d nota só pode conter no maximo 5 caracteres e não pode conter')
                             print('Os simbolos: !/|:;,*@#%$()?=-+.  Tente um nome mais simples')
@@ -199,7 +217,7 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                 print()
 
 
-    elif inpt == 5:
+    elif inpt == 6:
         if len(geral_list) == 0:
             print('Nenhum aluno cadastrado...')
         else:
@@ -243,7 +261,7 @@ Método de atribuição
                         break
                         print()
 
-    elif inpt == 6:
+    elif inpt == 7:
         if len(aluno_notas) == 0:
             print('Você não atribuiu nota a nenhum aluno')
             print()
@@ -272,7 +290,7 @@ Método de atribuição
                     for c in temp_data:
                         print(c)
 
-    elif inpt == 7:
+    elif inpt == 8:
         if len(geral_list) == 0 or len(turmas) == 0:
             print('Você ainda não possui alunos cadastrados')
             print()
