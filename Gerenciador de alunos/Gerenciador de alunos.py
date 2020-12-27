@@ -1,4 +1,5 @@
 import sqlite3
+from random import randint
 
 save = sqlite3.connect("Data_Base.db")
 
@@ -10,12 +11,13 @@ temp_data = list()
 med_min = 7.0
 done = False
 on = False
+on2 = False
 s = 0
 no_turm = 0
 
 
 print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão  2.3
+Programado por KevBoyz >>> Versão  2.4
 ''')
 
 while True:
@@ -58,7 +60,7 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                 print(f'-=-=-=- Alunos cadastrados na turma: {turmas[c]} -=-=-=-')
                 for aluno in geral_list:
                     if aluno[2] == turmas[c]:
-                        print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
+                        print(f'Nome: {aluno[0]:<20} | Numero de matricula: {aluno[1]}')
                 print()
 
     elif inpt == 2:
@@ -68,7 +70,7 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
 
         for aluno in geral_list:
             if aluno[2] == 'Aluno sem Turma':
-                print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
+                print(f'Nome: {aluno[0]:<20} | Numero de matricula: {aluno[1]}')
 
     elif inpt == 3:
         if len(turmas) == 0:
@@ -86,7 +88,39 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                 for c in range(0, loop):
                     print(f'-=-=-=- Aluno {c+1} -=-=-=-')
                     temp_data.append(str(input(f'Nome do aluno {c+1}: ')))
-                    temp_data.append(str(input(f'Data de nascimento de {temp_data[0]}: ')))
+                    if temp_data[0] in geral_list:
+                        print('Este nome já está sendo usado..')
+                        temp_data[0] = str(input(f'Nome do aluno {c+1}: '))
+                    if not on2:
+                        matricula = int(input(f'Numero de matricula do aluno com no mínimo 6 digitos: '))
+                        if matricula > 999999 or matricula < 100000:
+                            print('O numero de matricula deve ter no mímino 6 numeros')
+                            matricula = int(input(f'Numero de matricula do aluno: '))
+                        elif matricula in geral_list:
+                            print('Esse numero ja esta sendo usado tente novamente')
+                            matricula = int(input(f'Numero de matricula do aluno: '))
+                        else:
+                            print('Ok')
+                            print()
+                            temp_data.append(matricula)
+                    elif on2:
+                        rand = randint(100000, 999999)
+                        go = str(input(f'A matricula gerada foi {rand}, deseja atribuila ao aluno? [S/N] ')).lower()
+                        if go[0] == 's':
+                            if rand in geral_list:
+                                print('Este numero já está sendo usado...')
+                            else:
+                                print('Concluido')
+                                print()
+                                temp_data.append(rand)
+                        else:
+                            print()
+                            rand = randint(100000, 999999)
+                            go = str(input(f'A matricula gerada foi {rand}, deseja atribuila ao aluno? [S/N] ')).lower()
+                            if go[0] == 's':
+                                print('Concluido')
+                                print()
+                                temp_data.append(rand)
                     print('Turmas disponiveis: ', end='')
                     for turma in turmas:
                         print(f'{turma}', end='')
@@ -98,7 +132,7 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                     temp_data.append(aluno_turma)
                     geral_list.append(temp_data[:])
                     print('Visão prévia:')
-                    print(f'Nome: {temp_data[0]:<20} | Data de nascimento: {temp_data[1]}')
+                    print(f'Nome: {temp_data[0]:<20} | Numero de matricula: {temp_data[1]}')
                     print(f'Aluno {c+1} castrado com sucesso')
                     print()
                     temp_data.clear()
@@ -120,7 +154,8 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
 [3] Mofificar nota mínima para aprovção
 [4] Limpar dados
 [5] Configuração de notas
-[6] Voltar ao programa
+[6] Aleatrorizar matriculas
+[7] Voltar ao programa
 ''')
             inpt = int(input('>>> '))
 
@@ -211,8 +246,25 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                                 print(f'Nome aceito!, a nota {notas[c]} agora se chama {new_name}')
                                 notas[c] = new_name
 
-
             elif inpt == 6:
+                if on2:
+                    go = str(input('Esta opção esta ligada, deseja desativar? (S/N) '))
+                    if go[0] == 's':
+                        print('Concluido')
+                        on2 = True
+                    else:
+                        print('Operação cancelada')
+                else:
+                    print('Numeros de matricula serão gerados aleatoriamente ao cadastrar alunos')
+                    go = str(input('Você deseja ligar essa opção? (S/N) ')).lower()[0]
+                    if go[0] == 's':
+                        print('Concluido')
+                        on2 = True
+                    else:
+                        print('Operação cancelada')
+
+
+            elif inpt == 7:
                 break
                 print()
 
@@ -238,7 +290,7 @@ Método de atribuição
                         for aluno in geral_list:
                             if aluno[0] == name:
                                 print('Dados do aluno:')
-                                print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]} | Cadastrado na turma {aluno[2]}')
+                                print(f'Nome: {aluno[0]:<20} | Matricula: {aluno[1]} | Cadastrado na turma {aluno[2]}')
                                 print()
                                 for aluno in geral_list:
                                     if aluno[0] == name:
@@ -307,12 +359,12 @@ Método de atribuição
                     for aluno in geral_list:
                         if aluno[0] == name:
                             print('Dados atuais do aluno:')
-                            print(f'Nome: {aluno[0]:<20} | Data de nascimento: {aluno[1]}')
+                            print(f'Nome: {aluno[0]:<20} | Número de matricula: {aluno[1]}')
                             print('-=-'*20)
                     while True:
                         print('''Selecione o processo desejado;
 [1] Trocar nome do aluno
-[2] Trocar data de nascimento 
+[2] Trocar numero de matricula 
 [3] Mudar aluno de turma
 [4] Alterar notas do aluno
 [5] Voltar ao programa''')
@@ -325,12 +377,21 @@ Método de atribuição
                             print('Concluido com exito')
                             print()
                         elif inpt == 2:
-                            new_age = str(input('Nova data de nascimento: '))
+                            new_num = int(input('Novo numero: '))
                             for aluno in geral_list:
                                 if aluno[0] == name:
-                                    aluno[1] = new_age
-                            print('Concluido com exito')
-                            print()
+                                   if new_num > 100000 and 999999 > new_num:
+                                        print('Concluido!')
+                                        aluno[1] = new_num
+                                   else:
+                                       print('Deve conter no mínimo 6 digitos')
+                                       new_num = int(input('Novo numero: '))
+                                       for aluno in geral_list:
+                                           if aluno[0] == name:
+                                               if new_num > 100000 and 999999 > new_num:
+                                                   print('Concluido!')
+                                                   aluno[1] = new_num
+
                         elif inpt == 3:
                             name = str(input('Nome do aluno a ser mudado de turma: '))
                             for aluno in geral_list:
