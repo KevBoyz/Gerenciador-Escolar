@@ -17,7 +17,7 @@ no_turm = 0
 
 
 print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão  2.4
+Programado por KevBoyz >>> Versão  2.5
 ''')
 
 while True:
@@ -60,7 +60,7 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                 print(f'-=-=-=- Alunos cadastrados na turma: {turmas[c]} -=-=-=-')
                 for aluno in geral_list:
                     if aluno[2] == turmas[c]:
-                        print(f'Nome: {aluno[0]:<20} | Numero de matricula: {aluno[1]}')
+                        print(f'Nome: {aluno[0]:<20} | Numero de matricula: {aluno[1]} | Turma: {aluno[2]}')
                 print()
 
     elif inpt == 2:
@@ -290,13 +290,16 @@ Método de atribuição
                         for aluno in geral_list:
                             if aluno[0] == name:
                                 print('Dados do aluno:')
-                                print(f'Nome: {aluno[0]:<20} | Matricula: {aluno[1]} | Cadastrado na turma {aluno[2]}')
+                                print(f'Nome: {aluno[0]:<20} | Numero de matricula: {aluno[1]} | Turma: {aluno[2]}')
                                 print()
-                                for aluno in geral_list:
-                                    if aluno[0] == name:
-                                        done = True
+                                done = True
                                 if done:
-                                    print('O aluno ainda não tem nenhuma nota atribuida...')
+                                    done = False
+                                    for aluno in aluno_notas:
+                                        if aluno[0] == name:
+                                            print('O aluno já possui notas cadastradas...')
+                                            print('Para editá-las vá em configurações do aluno')
+                                    print('O aluno ainda não tem nenhuma nota atribuída...')
                                     print('Iniciando laço para adição das tres notas')
                                     print()
                                     temp_data.append(aluno[0])
@@ -307,7 +310,8 @@ Método de atribuição
                                     temp_data.clear()
                                     print('Notas registradas')
                                     print()
-
+                                else:
+                                    print('Aluno não encontrado4')
 
                     elif inpt == 3:
                         break
