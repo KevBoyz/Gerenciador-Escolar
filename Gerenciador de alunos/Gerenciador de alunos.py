@@ -1,7 +1,28 @@
 import sqlite3
 from random import randint
 
-save = sqlite3.connect("Data_Base.db")
+conn = sqlite3.connect("Database.db")
+cursor = conn.cursor()
+
+# Tables
+
+'''
+geral_list
+    nome TEXT NOT NULL,
+    matricula INTEGER NOT NULL,
+    turma TEXT NOT NULL
+
+turmas
+    turmas TEXT NOT NULL
+
+aluno_notas
+    nome TEXT NOT NULL
+    turma TEXT NOT NULL
+    ap1 FLOAT NOT NULL
+    ap2 FLOAT NOT NULL
+    ap3 FLOAT NOT NULL
+'''
+
 
 geral_list = list()
 turmas = list()
@@ -30,12 +51,14 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 [5] Configurações do programa   |
 [6] Atribuir notas para alunos  |
 [7] Conferir notas de alunos    |
-[8] editar configurações do aluno''')
+[8] Editar configurações do aluno
+[9] Salvar no banco de dados
+[10] Mostar banco de dados''')
     inpt = int(input('>>> '))
     print()
     done = False
 
-    if inpt < 0 or inpt == 0 or inpt > 8 or inpt == 8:
+    if inpt < 0 or inpt == 0 or inpt > 10 or inpt == 11:
         print('Operação inválida')
         print()
     elif inpt == 1:
@@ -473,3 +496,55 @@ Método de atribuição
                                             elif inpt == 4:
                                                 print('Saindo do configurador...')
                                                 break
+    elif inpt == 9:
+        print('Salvando dados...')
+
+        cursor.executemany("""
+                INSERT INTO geral_list (nome, matricula, turma)
+                VALUES (?,?,?)
+                """, geral_list)
+
+        cursor.executemany("""
+                INSERT INTO turmas (turmas)
+                VALUES (?)
+                """, turmas)
+
+        cursor.executemany("""
+                INSERT INTO aluno_notas (nome, turma, ap1, ap2, ap3)
+                VALUES (?,?,?,?,?)
+                """, aluno_notas)
+
+        print('Dados salvos')
+
+
+    elif inpt == 10:
+        cursor.execute("""
+        SELECT * FROM geral_list;
+        """)
+
+        print('Lista geral > > >')
+        print('NOME  MATRICULA  TURMA')
+        print()
+        for linha in cursor.fetchall():
+            print(linha)
+        print()
+
+        cursor.execute("""
+                SELECT * FROM turmas;
+                """)
+
+        print('Turmas > > >')
+        for linha in cursor.fetchall():
+            print(linha)
+        print()
+
+        cursor.execute("""
+                SELECT * FROM aluno_notas;
+                """)
+
+        print('Lista de notas >>>')
+        print('NOME  TURMA  AP1  AP2  AB')
+        print()
+        for linha in cursor.fetchall():
+            print(linha)
+        print()
