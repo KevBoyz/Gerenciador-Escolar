@@ -3,7 +3,7 @@
 ### Estruturas compostas e banco de dados simples
 
 ## Funcionalidades do programa
-v 2.2
+3.0 versão final
  
 * Cadastrar alunos 
 * Cadastrar turmas
@@ -12,7 +12,11 @@ v 2.2
 * Deletar informações
 * Editar configurações de alunos
 * Programa mais instável e visualmente bonito
-#### A partir da versão **2.2** foi adicionado um banco de dados, porem ele _não armazena dados_, apenas está alí...
 
-#### Para uso do programa é nessesário instalar o plugin _Database Navigator_ no seu Framework para suportar o banco de dados
+**Ultima atualaização ->**
+* Banco de dados implementado 
+
+### Dependências
+
+#### Para uso do programa é necessário instalar o plugin _Database Navigator_ no seu Framework para suportar o banco de dados
 #### e executar o comando `pip install sqlite` para instalar o modulo **SQlite**

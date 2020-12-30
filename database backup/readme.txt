@@ -1,0 +1,1 @@
+Substitua este arquivo pelo .db da pasta do programa caso queira limpar os dados

@@ -1,16 +1,13 @@
 import sqlite3
 from random import randint
-
 conn = sqlite3.connect("Database.db")
 cursor = conn.cursor()
-
 # Tables
-
 '''
-geral_list
-    nome TEXT NOT NULL,
-    matricula INTEGER NOT NULL,
-    turma TEXT NOT NULL
+geral_list                        | O banco de dados não retorna dados as variáveis, apenas armazena informações |
+    nome TEXT NOT NULL,           | das mesmas. O banco de dados implementado nesse programa foi apenas um teste |
+    matricula INTEGER NOT NULL,   
+    turma TEXT NOT NULL           
 
 turmas
     turmas TEXT NOT NULL
@@ -22,8 +19,6 @@ aluno_notas
     ap2 FLOAT NOT NULL
     ap3 FLOAT NOT NULL
 '''
-
-
 geral_list = list()
 turmas = list()
 notas = ['ap1', 'ap2', 'ab']
@@ -35,12 +30,9 @@ on = False
 on2 = False
 s = 0
 no_turm = 0
-
-
 print('''-=-=-=-=- Gerenciador de Alunos -=-=-=-=-
-Programado por KevBoyz >>> Versão  2.5
+Programado por KevBoyz >>> Versão  3.0
 ''')
-
 while True:
     print('''Menu de opções:
 _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -94,7 +86,6 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
         for aluno in geral_list:
             if aluno[2] == 'Aluno sem Turma':
                 print(f'Nome: {aluno[0]:<20} | Numero de matricula: {aluno[1]}')
-
     elif inpt == 3:
         if len(turmas) == 0:
             print('Antes de cadastrar alunos, cadastre primeiro uma turma')
@@ -159,14 +150,12 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                     print(f'Aluno {c+1} castrado com sucesso')
                     print()
                     temp_data.clear()
-
     elif inpt == 4:
         print('=-=-= Cadastramento de turmas =-=-=')
         name = str(input('Digite um nome para sua turma: ')).capitalize().strip()
         turmas.append(name)
         print('''Turma criada com Sucesso!
         ''')
-
     elif inpt == 5:
         while True:
             print('''
@@ -181,7 +170,6 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
 [7] Voltar ao programa
 ''')
             inpt = int(input('>>> '))
-
             if inpt == 1:
                 if len(turmas) == 0:
                     print('Nenhuma turma encontrada')
@@ -200,7 +188,6 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                             if aluno[2] == del_item:
                                 aluno[2] = 'Aluno sem Turma'
                                 no_turm += 1
-
                         print(f'Turma {del_item} excluida')
                         print()
             elif inpt == 2:
@@ -234,9 +221,6 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                 else:
                     print('Operação cancelada')
                     print()
-
-
-
             elif inpt == 4:
                 print('Se esta operação for realizada, todos os dados serão excluidos')
                 go = str(input('Você tem certeza que quer fazer isso? (S/N) ')).lower()[0]
@@ -247,9 +231,7 @@ Alunos sem turma: {no_turm} -> {(len(geral_list) * no_turm)/100}% do total
                     turmas.clear()
                 else:
                     print('Processo Cancelado')
-
             elif inpt == 5:
-
                 print(' === Configuração para sistema de notas === ')
                 print('''
 Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
@@ -268,7 +250,6 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                             else:
                                 print(f'Nome aceito!, a nota {notas[c]} agora se chama {new_name}')
                                 notas[c] = new_name
-
             elif inpt == 6:
                 if on2:
                     go = str(input('Esta opção esta ligada, deseja desativar? (S/N) '))
@@ -285,13 +266,9 @@ Por padrão o aluno tem 3 notas para a média final (ap1), (ap2), (ab)''')
                         on2 = True
                     else:
                         print('Operação cancelada')
-
-
             elif inpt == 7:
                 break
                 print()
-
-
     elif inpt == 6:
         if len(geral_list) == 0:
             print('Nenhum aluno cadastrado...')
@@ -335,11 +312,9 @@ Método de atribuição
                                     print()
                                 else:
                                     print('Aluno não encontrado4')
-
                     elif inpt == 3:
                         break
                         print()
-
     elif inpt == 7:
         if len(aluno_notas) == 0:
             print('Você não atribuiu nota a nenhum aluno')
@@ -368,7 +343,6 @@ Método de atribuição
                 else:
                     for c in temp_data:
                         print(c)
-
     elif inpt == 8:
         if len(geral_list) == 0 or len(turmas) == 0:
             print('Você ainda não possui alunos cadastrados')
@@ -418,7 +392,6 @@ Método de atribuição
                                                if new_num > 100000 and 999999 > new_num:
                                                    print('Concluido!')
                                                    aluno[1] = new_num
-
                         elif inpt == 3:
                             name = str(input('Nome do aluno a ser mudado de turma: '))
                             for aluno in geral_list:
@@ -445,7 +418,6 @@ Método de atribuição
                                                 aluno[2] = new_turm
                                     print('Concluido com exito')
                                     print()
-
                         elif inpt == 4:
                             if len(aluno_notas) == 0:
                                 print('Você não atribuiu nota para nehum aluno')
@@ -498,53 +470,41 @@ Método de atribuição
                                                 break
     elif inpt == 9:
         print('Salvando dados...')
-
         cursor.executemany("""
                 INSERT INTO geral_list (nome, matricula, turma)
                 VALUES (?,?,?)
                 """, geral_list)
-
         cursor.executemany("""
                 INSERT INTO turmas (turmas)
                 VALUES (?)
                 """, turmas)
-
         cursor.executemany("""
                 INSERT INTO aluno_notas (nome, turma, ap1, ap2, ap3)
                 VALUES (?,?,?,?,?)
                 """, aluno_notas)
-
         print('Dados salvos')
-
-
     elif inpt == 10:
         cursor.execute("""
         SELECT * FROM geral_list;
         """)
-
         print('Lista geral > > >')
         print('NOME  MATRICULA  TURMA')
         print()
         for linha in cursor.fetchall():
             print(linha)
         print()
-
-        cursor.execute("""
-                SELECT * FROM turmas;
-                """)
-
-        print('Turmas > > >')
         for linha in cursor.fetchall():
             print(linha)
         print()
-
         cursor.execute("""
                 SELECT * FROM aluno_notas;
                 """)
-
         print('Lista de notas >>>')
         print('NOME  TURMA  AP1  AP2  AB')
+        cursor.execute("""
+                SELECT * FROM turmas;
+                """)
+        print('Turmas > > >')
         print()
         for linha in cursor.fetchall():
             print(linha)
-        print()
